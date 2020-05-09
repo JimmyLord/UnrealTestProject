@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-
-#include "Camera/CameraComponent.h"
-#include "Components/CapsuleComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/SpringArmComponent.h"
-
 #include "TestCharacter.generated.h"
+
+class UCameraComponent;
+class USpringArmComponent;
+class AFloatingActor;
+class AActor;
+class UPrimitiveComponent;
 
 UCLASS()
 class TESTPROJECT_API ATestCharacter : public ACharacter
@@ -21,14 +21,21 @@ public:
 	// Sets default values for this character's properties.
 	ATestCharacter();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	USpringArmComponent* m_pCameraArm;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	UCameraComponent* m_pCamera;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapons")
+	TSubclassOf<AFloatingActor> m_BulletActor;
 
 	void MoveForward(float amount);
 	void MoveRight(float amount);
+	void Shoot();
+	void SpawnBullet(FVector pos, FRotator rot);
+
+	void OnBeginOverlap(UPrimitiveComponent* ourComp, AActor* otherActor, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool fromSweep, const FHitResult& sweepResult);
 
 protected:
 	// Called when the game starts or when spawned.

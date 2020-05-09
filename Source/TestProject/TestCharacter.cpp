@@ -2,6 +2,13 @@
 
 #include "TestCharacter.h"
 
+#include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+
+#include "FloatingActor.h"
+
 // Sets default values
 ATestCharacter::ATestCharacter()
 {
@@ -23,6 +30,7 @@ ATestCharacter::ATestCharacter()
 	m_pCameraArm->SetupAttachment( RootComponent );
 	m_pCameraArm->TargetArmLength = 400.0f;
 	m_pCameraArm->bUsePawnControlRotation = true;
+	m_pCameraArm->bDoCollisionTest = false;
 
 	m_pCamera = CreateDefaultSubobject<UCameraComponent>( TEXT("Camera") );
 	m_pCamera->SetupAttachment( m_pCameraArm, USpringArmComponent::SocketName );
@@ -32,7 +40,9 @@ ATestCharacter::ATestCharacter()
 // Called when the game starts or when spawned.
 void ATestCharacter::BeginPlay()
 {
-	Super::BeginPlay();	
+	Super::BeginPlay();
+
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic( this, &ATestCharacter::OnBeginOverlap );
 }
 
 // Called every frame.
@@ -51,6 +61,8 @@ void ATestCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 	PlayerInputComponent->BindAxis( "MoveForward", this, &ATestCharacter::MoveForward );
 	PlayerInputComponent->BindAxis( "MoveRight", this, &ATestCharacter::MoveRight );
+
+	PlayerInputComponent->BindAction( "Shoot", IE_Pressed, this, &ATestCharacter::Shoot );
 }
 
 void ATestCharacter::MoveForward(float amount)
@@ -59,8 +71,8 @@ void ATestCharacter::MoveForward(float amount)
 
 	FVector dir( cos(yaw), sin(yaw), 0 );
 
-	//GEngine->AddOnScreenDebugMessage( 100, 5.f, FColor::Green, FString::Printf( TEXT("Yaw: %f"), yaw ) );
-	//GEngine->AddOnScreenDebugMessage( 101, 5.f, FColor::Green, FString::Printf( TEXT("Dir: %f,%f"), dir.X, dir.Y ) );
+	//GEngine->AddOnScreenDebugMessage( 100, 1.0f, FColor::Green, FString::Printf( TEXT("Yaw: %f"), yaw ) );
+	//GEngine->AddOnScreenDebugMessage( 101, 1.0f, FColor::Green, FString::Printf( TEXT("Dir: %f,%f"), dir.X, dir.Y ) );
 
 	AddMovementInput( dir, amount );
 }
@@ -72,5 +84,30 @@ void ATestCharacter::MoveRight(float amount)
 	FVector dir( cos(yaw), sin(yaw), 0 );
 
 	AddMovementInput( dir, amount );
+}
+
+void ATestCharacter::Shoot()
+{
+	FVector pos = GetController()->GetPawn()->GetActorLocation();
+	FRotator rot = GetController()->GetPawn()->GetActorRotation();
+
+	//GetController()->GetPlayerViewPoint( pos, rot );	
+
+	//FHitResult hitResult;
+	//FVector end = pos + (rot.Vector() * 20);
+	//bool didHit = GetWorld()->LineTraceSingleByChannel( hitResult, pos, end, ECC_Visibility);
+
+	SpawnBullet( pos, rot );
+}
+
+void ATestCharacter::SpawnBullet(FVector pos, FRotator rot)
+{
+	FActorSpawnParameters params;
+	AActor* pActor = GetWorld()->SpawnActor<AActor>( m_BulletActor, pos, rot, params );
+}
+
+void ATestCharacter::OnBeginOverlap(UPrimitiveComponent* ourComp, AActor* otherActor, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool fromSweep, const FHitResult& sweepResult)
+{
+
 }
 
