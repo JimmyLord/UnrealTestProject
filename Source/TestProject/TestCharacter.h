@@ -8,7 +8,7 @@
 
 class UCameraComponent;
 class USpringArmComponent;
-class AFloatingActor;
+class ABullet;
 class AActor;
 class UPrimitiveComponent;
 
@@ -28,7 +28,7 @@ public:
 	UCameraComponent* m_pCamera;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapons")
-	TSubclassOf<AFloatingActor> m_BulletActor;
+	TSubclassOf<ABullet> m_BulletActor;
 
 	void MoveForward(float amount);
 	void MoveRight(float amount);

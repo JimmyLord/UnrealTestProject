@@ -7,7 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
-#include "FloatingActor.h"
+#include "Bullet.h"
 
 // Sets default values
 ATestCharacter::ATestCharacter()
@@ -97,13 +97,20 @@ void ATestCharacter::Shoot()
 	//FVector end = pos + (rot.Vector() * 20);
 	//bool didHit = GetWorld()->LineTraceSingleByChannel( hitResult, pos, end, ECC_Visibility);
 
+	// Bullet mesh is facing up, so rotate the bullet 90 degrees so it's facing forward.
+	FRotator tilt( -90, 0, 0 );
+	rot += tilt;
+
 	SpawnBullet( pos, rot );
 }
 
 void ATestCharacter::SpawnBullet(FVector pos, FRotator rot)
 {
 	FActorSpawnParameters params;
-	AActor* pActor = GetWorld()->SpawnActor<AActor>( m_BulletActor, pos, rot, params );
+	ABullet* pBullet = GetWorld()->SpawnActor<ABullet>( m_BulletActor, pos, rot, params );
+
+	float radZ = rot.Euler().Z * PI / 180.0f;
+	pBullet->m_Direction.Set( cos(radZ), sin(radZ), 0 );
 }
 
 void ATestCharacter::OnBeginOverlap(UPrimitiveComponent* ourComp, AActor* otherActor, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool fromSweep, const FHitResult& sweepResult)

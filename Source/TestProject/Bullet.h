@@ -4,25 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "FloatingActor.generated.h"
+#include "Bullet.generated.h"
 
 UCLASS()
-class TESTPROJECT_API AFloatingActor : public AActor
+class TESTPROJECT_API ABullet : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AFloatingActor();
+	ABullet();
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* m_pMesh;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="FloatingActor")
-	float m_FloatSpeed = 20.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="FloatingActor")
-	float m_RotationSpeed = 20.0f;
+	FVector m_Direction;
 
 protected:
 	// Called when the game starts or when spawned
@@ -30,5 +26,6 @@ protected:
 
 public:	
 	// Called every frame
-	virtual void Tick(float deltaTime) override;
+	virtual void Tick(float DeltaTime) override;
+
 };

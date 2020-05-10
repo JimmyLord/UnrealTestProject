@@ -8,15 +8,15 @@ AFloatingActor::AFloatingActor()
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	m_pVisualMesh = CreateDefaultSubobject<UStaticMeshComponent>( TEXT("Mesh") );
-	m_pVisualMesh->SetupAttachment( RootComponent );
+	m_pMesh = CreateDefaultSubobject<UStaticMeshComponent>( TEXT("Mesh") );
+	m_pMesh->SetupAttachment( RootComponent );
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeVisualAsset( TEXT("/Game/Shapes/Shape_Cube.Shape_Cube") );
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> mesh( TEXT("/Game/Shapes/Shape_Cube.Shape_Cube") );
 
-	if( CubeVisualAsset.Succeeded() )
+	if( mesh.Succeeded() )
 	{
-		m_pVisualMesh->SetStaticMesh( CubeVisualAsset.Object );
-		m_pVisualMesh->SetRelativeLocation( FVector(0.0f, 0.0f, 0.0f) );
+		m_pMesh->SetStaticMesh( mesh.Object );
+		m_pMesh->SetRelativeLocation( FVector(0.0f, 0.0f, 0.0f) );
 	}
 }
 
