@@ -9,7 +9,7 @@
 
 #include "Bullet.h"
 
-// Sets default values
+// Sets default values.
 ATestCharacter::ATestCharacter()
 {
  	// Set this character to call Tick() every frame. You can turn this off to improve performance if you don't need it.
@@ -42,13 +42,16 @@ void ATestCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic( this, &ATestCharacter::OnBeginOverlap );
+	//GetCapsuleComponent()->SetNotifyRigidBodyCollision( true );
+	//GetCapsuleComponent()->BodyInstance.SetCollisionProfileName( "BlockAllDynamic" );
+	//GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic( this, &ATestCharacter::OnBeginOverlap );
+	GetCapsuleComponent()->OnComponentHit.AddDynamic( this, &ATestCharacter::OnHit );
 }
 
 // Called every frame.
-void ATestCharacter::Tick(float DeltaTime)
+void ATestCharacter::Tick(float deltaTime)
 {
-	Super::Tick(DeltaTime);
+	Super::Tick( deltaTime );
 }
 
 // Called to bind functionality to input.
@@ -115,6 +118,11 @@ void ATestCharacter::SpawnBullet(FVector pos, FRotator rot)
 
 void ATestCharacter::OnBeginOverlap(UPrimitiveComponent* ourComp, AActor* otherActor, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool fromSweep, const FHitResult& sweepResult)
 {
+	GEngine->AddOnScreenDebugMessage( -1, 1.0f, FColor::Green, FString::Printf( TEXT("Player was overlapped!") ) );
+}
 
+void ATestCharacter::OnHit(UPrimitiveComponent* hitComp, AActor* otherActor, UPrimitiveComponent* otherComp, FVector normalImpulse, const FHitResult& hitResult)
+{
+	GEngine->AddOnScreenDebugMessage( -1, 1.0f, FColor::Green, FString::Printf( TEXT("Player was hit!") ) );
 }
 
