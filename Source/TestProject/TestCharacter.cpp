@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) 2020 Jimmy Lord http://www.flatheadgames.com All Rights Reserved.
 
 #include "TestCharacter.h"
 
@@ -118,7 +118,7 @@ void ATestCharacter::SpawnBullet(FVector pos, FRotator rot)
 
 void ATestCharacter::OnBeginOverlap(UPrimitiveComponent* ourComp, AActor* otherActor, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool fromSweep, const FHitResult& sweepResult)
 {
-	GEngine->AddOnScreenDebugMessage( -1, 1.0f, FColor::Green, FString::Printf( TEXT("Player was overlapped!") ) );
+	//GEngine->AddOnScreenDebugMessage( -1, 1.0f, FColor::Green, FString::Printf( TEXT("Player was overlapped!") ) );
 }
 
 void ATestCharacter::OnHit(UPrimitiveComponent* hitComp, AActor* otherActor, UPrimitiveComponent* otherComp, FVector normalImpulse, const FHitResult& hitResult)

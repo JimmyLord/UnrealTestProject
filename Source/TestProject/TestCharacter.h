@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) 2020 Jimmy Lord http://www.flatheadgames.com All Rights Reserved.
 
 #pragma once
 
@@ -30,17 +30,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapons")
 	TSubclassOf<ABullet> m_BulletActor;
 
-	void MoveForward(float amount);
-	void MoveRight(float amount);
-	void Shoot();
-	void SpawnBullet(FVector pos, FRotator rot);
-
-	UFUNCTION()
-	void OnBeginOverlap(UPrimitiveComponent* ourComp, AActor* otherActor, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool fromSweep, const FHitResult& sweepResult);
-
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* hitComp, AActor* otherActor, UPrimitiveComponent* otherComp, FVector normalImpulse, const FHitResult& hitResult);
-
 protected:
 	// Called when the game starts or when spawned.
 	virtual void BeginPlay() override;
@@ -51,5 +40,16 @@ public:
 
 	// Called to bind functionality to input.
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	void MoveForward(float amount);
+	void MoveRight(float amount);
+	void Shoot();
+	void SpawnBullet(FVector pos, FRotator rot);
+
+	UFUNCTION()
+	void OnBeginOverlap(UPrimitiveComponent* ourComp, AActor* otherActor, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool fromSweep, const FHitResult& sweepResult);
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* hitComp, AActor* otherActor, UPrimitiveComponent* otherComp, FVector normalImpulse, const FHitResult& hitResult);
 
 };

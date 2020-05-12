@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) 2020 Jimmy Lord http://www.flatheadgames.com All Rights Reserved.
 
 #pragma once
 
@@ -34,4 +34,9 @@ public:
 	// Called every frame.
 	virtual void Tick(float deltaTime) override;
 
+	UFUNCTION()
+	void OnBeginOverlap(UPrimitiveComponent* ourComp, AActor* otherActor, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool fromSweep, const FHitResult& sweepResult);
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* hitComp, AActor* otherActor, UPrimitiveComponent* otherComp, FVector normalImpulse, const FHitResult& hitResult);
 };

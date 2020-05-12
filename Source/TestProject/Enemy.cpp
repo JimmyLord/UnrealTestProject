@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) 2020 Jimmy Lord http://www.flatheadgames.com All Rights Reserved.
 
 #include "Enemy.h"
 
@@ -44,10 +44,13 @@ void AEnemy::Tick(float deltaTime)
 
 void AEnemy::OnBeginOverlap(UPrimitiveComponent* ourComp, AActor* otherActor, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool fromSweep, const FHitResult& sweepResult)
 {
-	GEngine->AddOnScreenDebugMessage( -1, 1.0f, FColor::Green, FString::Printf( TEXT("Enemy was overlapped!") ) );
+	//GEngine->AddOnScreenDebugMessage( -1, 1.0f, FColor::Green, FString::Printf( TEXT("Enemy was overlapped!") ) );
 }
 
 void AEnemy::OnHit(UPrimitiveComponent* hitComp, AActor* otherActor, UPrimitiveComponent* otherComp, FVector normalImpulse, const FHitResult& hitResult)
 {
 	GEngine->AddOnScreenDebugMessage( -1, 1.0f, FColor::Green, FString::Printf( TEXT("Enemy was hit!") ) );
+
+	// Destroy the enemy.
+	Destroy();
 }
