@@ -35,15 +35,15 @@ void ASpawnManager::TimerTick()
 			return;
 		}
 
-		GEngine->AddOnScreenDebugMessage( -1, 0.6f, FColor::Green, FString::Printf( TEXT("%s"), *m_SpawnAreas[0]->GetName() ) );
-
 		FVector origin;
 		FVector extent;
 		m_SpawnAreas[0]->GetActorBounds( false, origin, extent, false );
 
+		GEngine->AddOnScreenDebugMessage( -1, 0.6f, FColor::Green, FString::Printf( TEXT("%s %0.0f,%0.0f,%0.0f %0.0f,%0.0f,%0.0f"), *m_SpawnAreas[0]->GetName(), origin.X, origin.Y, origin.Z, extent.X, extent.Y, extent.Z ) );
+
 		//FVector pos(0,0,0);
 		FVector pos = UKismetMathLibrary::RandomPointInBoundingBox( origin, extent );
-		pos.Z = 0;
+		pos.Z = 30.0f;
 		FRotator rot(0,0,0);
 
 		// Spawn an enemy.

@@ -11,17 +11,19 @@ class TESTPROJECT_API AEnemy : public AActor
 {
 	GENERATED_BODY()
 
+public:
+	UPROPERTY(VisibleAnywhere)
+		UStaticMeshComponent* m_pMesh;
+
+	FVector m_Direction;
+	bool m_Shootable;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Enemy Properties")
+		float m_Speed = 1.0f;
+
 public:	
 	// Sets default values for this actor's properties
 	AEnemy();
-
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* m_pMesh;
-
-	FVector m_Direction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Enemy Properties")
-	float m_Speed = 100.0f;
 
 protected:
 	// Called when the game starts or when spawned.

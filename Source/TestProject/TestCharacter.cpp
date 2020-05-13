@@ -28,7 +28,7 @@ ATestCharacter::ATestCharacter()
 
 	m_pCameraArm = CreateDefaultSubobject<USpringArmComponent>( TEXT("CameraArm") );
 	m_pCameraArm->SetupAttachment( RootComponent );
-	m_pCameraArm->TargetArmLength = 400.0f;
+	m_pCameraArm->TargetArmLength = 200.0f;
 	m_pCameraArm->bUsePawnControlRotation = true;
 	m_pCameraArm->bDoCollisionTest = false;
 
@@ -52,6 +52,13 @@ void ATestCharacter::BeginPlay()
 void ATestCharacter::Tick(float deltaTime)
 {
 	Super::Tick( deltaTime );
+
+	// If the player falls off the world, return it to the spawn point.
+	FVector pos = GetActorLocation();
+	if( pos.Z < -10 )
+	{
+		SetActorLocation( FVector(0,0,10) );
+	}
 }
 
 // Called to bind functionality to input.

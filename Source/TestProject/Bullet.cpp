@@ -9,7 +9,7 @@ ABullet::ABullet()
 	PrimaryActorTick.bCanEverTick = true;
 
 	m_pMesh = CreateDefaultSubobject<UStaticMeshComponent>( TEXT("Mesh") );
-	m_pMesh->SetupAttachment( RootComponent );
+	RootComponent = m_pMesh;
 
 	ConstructorHelpers::FObjectFinder<UStaticMesh> mesh( TEXT("/Game/Shapes/Shape_Cone.Shape_Cone") );
 
@@ -56,7 +56,7 @@ void ABullet::OnBeginOverlap(UPrimitiveComponent* ourComp, AActor* otherActor, U
 
 void ABullet::OnHit(UPrimitiveComponent* hitComp, AActor* otherActor, UPrimitiveComponent* otherComp, FVector normalImpulse, const FHitResult& hitResult)
 {
-	GEngine->AddOnScreenDebugMessage( -1, 1.0f, FColor::Green, FString::Printf( TEXT("Bullet was hit!") ) );
+	GEngine->AddOnScreenDebugMessage( -1, 1.0f, FColor::Green, FString::Printf( TEXT("Bullet was hit! by %s"), *otherActor->GetName() ) );
 
 	// We hit something, remove from world.
 	Destroy();
